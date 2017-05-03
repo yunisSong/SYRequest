@@ -24,14 +24,22 @@
             .httpMethod(SYHTTPMethod_GET)
             .addParameters(@{@"query":@"sa"})
             .start(^(BOOL sucess,id responseData,NSError *error){
-        
-                
-                NSLog(@"response = %@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-                
                 NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
                 NSLog(@"jsonDic = %@",jsonDic);
             });
-    }
+    
+    
+    SYRequest.requestURLString(@"https://www.metaweather.com/api/location/search/")
+    .httpMethod(SYHTTPMethod_GET)
+    .addParameters(@{@"query":@"sa"})
+    .start(^(BOOL sucess,id responseData,NSError *error){
+        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        NSLog(@"jsonDic = %@",jsonDic);
+    });
+}
+
+
+
 
 //    SYRequest *requset = [[SYRequest alloc] init];
 //    requset.requestURLString(@"https://www.metaweather.com/api/location/search/?query=shanghai")
