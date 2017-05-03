@@ -46,9 +46,12 @@
     NSURLRequest *request = syBaseRequest.request;
     NSLog(@"request = %@ %@",request,syBaseRequest);
     
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
+//    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:Nil];
     
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+
     NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error)
                                              {
                                                  [self handleReponseResult:syBaseRequest.task response:data error:error];
@@ -57,6 +60,8 @@
     syBaseRequest.task = sessionDataTask;
     [self addRequest:syBaseRequest];
     [sessionDataTask resume];
+    
+//    [session finishTasksAndInvalidate];
 
 }
 

@@ -17,39 +17,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-//  query=shanghai
+
     
     SYRequest *requset = [[SYRequest alloc] init];
     requset.requestURLString(@"https://www.metaweather.com/api/location/search/")
             .httpMethod(SYHTTPMethod_GET)
             .addParameters(@{@"query":@"sa"})
             .start(^(BOOL sucess,id responseData,NSError *error){
-                NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-                NSLog(@"jsonDic = %@",jsonDic);
+                
+                NSLog(@"responseData = %@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                if (responseData) {
+                    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+                    NSLog(@"jsonDic = %@",jsonDic);
+                }
+
             });
     
+    SYRequest *test = [[SYRequest alloc] init];
+
+    NSMutableDictionary *dic1 = [[NSMutableDictionary alloc] init];
+    [dic1 setObject:@"23" forKey:@"api"];
+    [dic1 setObject:@"w-ios-440x480" forKey:@"p"];
+    [dic1 setObject:@"春节" forKey:@"searchContent"];
+    [dic1 setObject:@"3" forKey:@"type"];
+    [dic1 setObject:@"2" forKey:@"offset"];
+    [dic1 setObject:@"10" forKey:@"range"];
     
-    SYRequest.requestURLString(@"https://www.metaweather.com/api/location/search/")
+    
+    test.requestURLString(@"http://218.207.208.46/shanshow_web/cy/getSearchList")
     .httpMethod(SYHTTPMethod_GET)
-    .addParameters(@{@"query":@"sa"})
-    .start(^(BOOL sucess,id responseData,NSError *error){
-        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-        NSLog(@"jsonDic = %@",jsonDic);
-    });
-}
-
-
-
-
-//    SYRequest *requset = [[SYRequest alloc] init];
-//    requset.requestURLString(@"https://www.metaweather.com/api/location/search/?query=shanghai")
+    .addParameters(dic1)
+    .start(^(BOOL sucess,id responseData,NSError *error)
+           {
+               NSLog(@"resoutDic = %@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+               
+           });
+//
+//    SYRequest.requestURLString(@"https://www.metaweather.com/api/location/search/")
 //    .httpMethod(SYHTTPMethod_GET)
+//    .addParameters(@{@"query":@"sa"})
 //    .start(^(BOOL sucess,id responseData,NSError *error){
-//        
-//        
-//        NSLog(@"response = %@",[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+//        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+//        NSLog(@"jsonDic = %@",jsonDic);
 //    });
-//}
+
+}
 
 
 - (void)didReceiveMemoryWarning {
